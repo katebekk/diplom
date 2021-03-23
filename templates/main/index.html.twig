@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <h1> Главная страница {{ app.user.email }}</h1>
+    {% else %}
+        <h1>Войдите или зарегестрируйтесь!</h1>
+    {% endif %}
+{% endblock %}

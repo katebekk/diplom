@@ -14,6 +14,16 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            {% block header %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                    <button class="green"><a href="{{ path('app_logout') }}">Выйти</a> </button>
+                {% else %}
+                    <button class="green"><a href="{{ path('app_login') }}">Войти</a> </button>
+                    <button class="green"><a href="{{ path('app_register') }}">Регистрация</a> </button>
+                {% endif %}
+            {% endblock %}
+        </header>
         {% block body %}{% endblock %}
     </body>
 </html>
