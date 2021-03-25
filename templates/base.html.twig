@@ -3,6 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
@@ -16,6 +18,26 @@
     <body>
         <header>
             {% block header %}
+                <div class="header_logo">
+                    <a href="">Рисуем</a>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+                        <a href="" id="nick">{{ app.user.email }}</a>
+                    {% endif %}
+                </div>
+                <nav >
+                    <ul>
+                        <li><a href="{{ path('main') }}">Главная</a></li>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if is_granted('ROLE_TEACHER') %}
+                                <li><a href="">Создать курс</a></li>
+                                <li><a href="">Мои курсы</a></li>
+                            {% else %}
+                                <li><a href="">Выбрать курс</a></li>
+                                <li><a href="">Мои курсы</a></li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </nav>
                 {% if is_granted('IS_AUTHENTICATED_FULLY')%}
                     <button class="green"><a href="{{ path('app_logout') }}">Выйти</a> </button>
                 {% else %}
