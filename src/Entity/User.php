@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,6 +46,34 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $userType;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Course::class, mappedBy="user")
+     */
+    private $courses;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DrawingCheckResult::class, mappedBy="user")
+     */
+    private $drawingCheckResults;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Course::class)
+     */
+    private $coursePassed;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Passing::class, mappedBy="user", orphanRemoval=true, cascade={"persist", "remove"})
+     */
+    private $passings;
+
+    public function __construct()
+    {
+        $this->courses = new ArrayCollection();
+        $this->drawingCheckResults = new ArrayCollection();
+        $this->coursePassed = new ArrayCollection();
+        $this->passings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,6 +171,142 @@ class User implements UserInterface
     public function setUserType(string $userType): self
     {
         $this->userType = $userType;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Course[]
+     */
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
+
+    public function addCourse(Course $course): self
+    {
+        if (!$this->courses->contains($course)) {
+            $this->courses[] = $course;
+            $course->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCourse(Course $course): self
+    {
+        if ($this->courses->removeElement($course)) {
+            // set the owning side to null (unless already changed)
+            if ($course->getUser() === $this) {
+                $course->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DrawingCheckResult[]
+     */
+    public function getDrawingCheckResults(): Collection
+    {
+        return $this->drawingCheckResults;
+    }
+
+    public function addDrawingCheckResult(DrawingCheckResult $drawingCheckResult): self
+    {
+        if (!$this->drawingCheckResults->contains($drawingCheckResult)) {
+            $this->drawingCheckResults[] = $drawingCheckResult;
+            $drawingCheckResult->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDrawingCheckResult(DrawingCheckResult $drawingCheckResult): self
+    {
+        if ($this->drawingCheckResults->removeElement($drawingCheckResult)) {
+            // set the owning side to null (unless already changed)
+            if ($drawingCheckResult->getUser() === $this) {
+                $drawingCheckResult->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Course[]
+     */
+    public function getCoursePassed(): Collection
+    {
+        return $this->coursePassed;
+    }
+
+    public function addCoursePassed(Course $coursePassed): self
+    {
+        if (!$this->coursePassed->contains($coursePassed)) {
+            $this->coursePassed[] = $coursePassed;
+        }
+
+        return $this;
+    }
+
+    public function removeCoursePassed(Course $coursePassed): self
+    {
+        $this->coursePassed->removeElement($coursePassed);
+
+        return $this;
+    }
+
+    public function isEnroll(Course $course): bool
+    {
+        if (!$this->coursePassed->contains($course)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isPassing(Course $course): bool
+    {
+        $passings = $this->passings;
+        $passed = false;
+        foreach ($passings as &$passing) {
+            if ($passing->getCourse() == $course and $passing->getIsComplited() == false) {
+                $passed = true;
+            }
+        }
+
+        return $passed;
+    }
+
+    /**
+     * @return Collection|Passing[]
+     */
+    public function getPassings(): Collection
+    {
+        return $this->passings;
+    }
+
+    public function addPassing(Passing $passing): self
+    {
+        if (!$this->passings->contains($passing)) {
+            $this->passings[] = $passing;
+            $passing->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePassing(Passing $passing): self
+    {
+        if ($this->passings->removeElement($passing)) {
+            // set the owning side to null (unless already changed)
+            if ($passing->getUser() === $this) {
+                $passing->setUser(null);
+            }
+        }
 
         return $this;
     }

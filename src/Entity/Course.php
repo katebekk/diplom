@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,17 +23,32 @@ class Course
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Name;
+    private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="course")
+     * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="course", cascade={"persist", "remove"})
      */
     private $lessons;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $difficultyLevel;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="courses")
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Test::class, mappedBy="course", cascade={"persist", "remove"})
+     */
+    private $test;
 
     public function __construct()
     {
@@ -46,12 +62,12 @@ class Course
 
     public function getName(): ?string
     {
-        return $this->Name;
+        return $this->name;
     }
 
-    public function setName(string $Name): self
+    public function setName(string $name): self
     {
-        $this->Name = $Name;
+        $this->name = $name;
 
         return $this;
     }
@@ -94,6 +110,51 @@ class Course
     public function setDifficultyLevel(string $difficultyLevel): self
     {
         $this->difficultyLevel = $difficultyLevel;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTest(): ?Test
+    {
+        return $this->test;
+    }
+
+    public function setTest(Test $test): self
+    {
+        // set the owning side of the relation if necessary
+        if ($test->getCourse() !== $this) {
+            $test->setCourse($this);
+        }
+
+        $this->test = $test;
 
         return $this;
     }

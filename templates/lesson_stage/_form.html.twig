@@ -1,0 +1,8 @@
+{{ form_start(form) }}
+<div class="center">
+    {{ form_widget(form) }}
+    <div class="py-2 ">
+        <button class="btn btn-lg btn-primary">{{ button_label|default('Сохранить') }}</button>
+    </div>
+</div>
+{{ form_end(form) }}

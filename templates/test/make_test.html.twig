@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New test{% endblock %}
+
+{% block body %}
+    <div class="py-5 text-center">
+        {# <img class="d-block mx-auto mb-4" src="#" alt="" width="72" height="72"> #}
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-easel"
+             viewBox="0 0 16 16">
+            <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0zM2 3v7h12V3H2z"/>
+        </svg>
+        <h2>Добавьте тест в курс {{ course.Name }}!</h2>
+        <p class="lead">Самое время добавить в ваш курс тест!</p>
+    </div>
+
+
+    <form action="{{ path('make_test', {'courseId': course.id}) }}" method="post">
+        <div class="col-md-8 order-md-1">
+            <label class="dis">Вопрос</label>
+            {% set question_number = 0 %}
+            <input type="text" class="value input" name="questions[]" required>
+            <label class="dis">Ответы:</label>
+            {% for i in 0..3 %}
+                <div class="row">
+                    <div class="col-sm">
+                        <input type="text" class="value input inline" name="answers[]" required>
+                    </div>
+                    <div class="col-sm">
+                        <input type="checkbox" class="value input inline" name="isRights[]" checked value="answer-{{ question_number }}-{{ i }}">
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="col-md-8 order-md-1">
+
+            <input hidden name="submit">
+            <div class="py-2 ">
+
+                <button type="button" class="btn btn-primary" id="plus">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"></path>
+                    </svg>
+                    Добавить вопрос
+                </button>
+            </div>
+
+            <input type="submit" value="Сохранить" class="nav">
+        </div>
+    </form>
+    <input type="hidden" id="value" value="0">
+    <script src="/js/add_question.js"></script>
+{% endblock %}

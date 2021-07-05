@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Главная страница{% endblock %}
 
 {% block body %}
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <h1> Главная страница {{ app.user.email }}</h1>
-    {% else %}
-        <h1>Войдите или зарегестрируйтесь!</h1>
-    {% endif %}
+        <div class="container text-center py-5 bg-light ">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <h2> Главная страница {{ app.user.email }}</h2>
+                {% else %}
+                        <h2>Добро пожаловать в интеллектуальную систему обучения рисованию!<br>
+                                Войдите или зарегистрируйтесь!</h2>
+                {% endif %}
+        </div>
 {% endblock %}
