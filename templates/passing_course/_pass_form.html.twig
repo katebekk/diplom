@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('pass_course', {'courseId': course.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('pass' ~ course.id) }}">
+    <button class="btn btn-primary my-2">{{ button_label|default('Пройти') }}</button>
+</form>

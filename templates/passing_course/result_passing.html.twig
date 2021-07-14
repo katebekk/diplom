@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Прохождение{% endblock %}
+
+{% block body %}
+    <section class="text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Результат прохождения курса {{ course.name }}</h1>
+            <p>Результаты:</p>
+            <p class="text-success">правильно пройденных этапов {{ success }} </p>
+            <p class="text-danger">неправильно пройденных этапов {{ wrong }} </p>
+            <a type="button" class="btn btn-sm btn-outline-secondary"
+               href="{{ path('show_course', {'courseId': course.id}) }}">К просмотру курса</a>
+        </div>
+    </section>
+{% endblock %}

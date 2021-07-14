@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LessonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,7 +26,7 @@ class Lesson
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $goals;
 
@@ -36,9 +37,14 @@ class Lesson
     private $course;
 
     /**
-     * @ORM\OneToMany(targetEntity=LessonStage::class, mappedBy="lesson")
+     * @ORM\OneToMany(targetEntity=LessonStage::class, mappedBy="lesson", cascade={"persist", "remove"})
      */
     private $lessonStages;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $exampleImage;
 
     public function __construct()
     {
@@ -115,4 +121,21 @@ class Lesson
 
         return $this;
     }
+
+    public function getExampleImage(): ?string
+    {
+        return $this->exampleImage;
+    }
+
+    public function setExampleImage(string $exampleImage): self
+    {
+        $this->exampleImage = $exampleImage;
+
+        return $this;
+    }
+    public function __toString(){
+        // to show the name of the Category in the select
+        return $this->name;
+    }
+
 }

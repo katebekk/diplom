@@ -27,9 +27,10 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'required'=>false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => 'Вы должны согласится с условиями',
                     ]),
                 ],
             ])
@@ -39,11 +40,11 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Пожалуйста введите пароль',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Ваш пароль должен быть не меньше 6 символов',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Уроки{% endblock %}
+
+{% block body %}
+    {% do form.course.setRendered() %}
+    <div class="py-5 text-center">
+        {# <img class="d-block mx-auto mb-4" src="#" alt="" width="72" height="72"> #}
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-easel"
+             viewBox="0 0 16 16">
+            <path d="M8 0a.5.5 0 0 1 .473.337L9.046 2H14a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1.85l1.323 3.837a.5.5 0 1 1-.946.326L11.092 11H8.5v3a.5.5 0 0 1-1 0v-3H4.908l-1.435 4.163a.5.5 0 1 1-.946-.326L3.85 11H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h4.954L7.527.337A.5.5 0 0 1 8 0zM2 3v7h12V3H2z"/>
+        </svg>
+        <h2>Добавьте уроки в курс {{ course.name }}!</h2>
+        <p class="lead">Самое время добавить в ваш курс уроки!</p>
+    </div>
+    <div class="row center">
+        {{ include('lesson/_form.html.twig') }}
+        <a type="button" class="m-3 btn btn-sm btn-outline-secondary"
+           href="{{ app.request.headers.get('referer') }}">назад</a>
+{#        <a href="{{ path('my_courses_teacher') }}">назад</a>#}
+    </div>
+    <h2 class="fw-light">Уроки курса {{ course.name }}</h2>
+    <div class="container bg-light">
+        <div class="row">
+            <div class="col-sm">
+                <p>Название</p>
+            </div>
+            <div class="col-sm">
+                <p>Описание</p>
+            </div>
+            <div class="col-sm">
+                <p>Пример</p>
+            </div>
+            <div class="col-sm">
+                <p>Действия</p>
+            </div>
+        </div>
+        <ul class="list-group">
+            {% for lesson in course.lessons %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ loop.index }}
+                    <div class="col-sm">
+                        {{ lesson.name }}
+                    </div>
+                    <div class="col-sm">
+                        <details> {{ lesson.goals }}</details>
+                    </div>
+                    <div class="col-sm">
+                    <img  data-src="{{  asset('uploads/exampleimages/') ~ lesson.getExampleImage }}" style="display: block; width: 226px;" src="{{ asset('uploads/exampleimages/') ~ lesson.getExampleImage }}" data-holder-rendered="true">
+                    </div>
+                    <div class="col">
+                        <div class="btn-group">
+                            <a type="button" class="btn btn-sm btn-outline-secondary"
+                               href="{{ path('lesson_edit', {'lessonId': lesson.id}) }}">Редактировать
+                            </a>
+                            <a type="button" class="btn btn-sm btn-outline-success"
+                               href="{{ path('stage_of_lesson',{'lessonId':lesson.id}) }}">Добавить этапы</a>
+                            {{ include('lesson/_delete_form.html.twig') }}
+                        </div>
+                    </div>
+                </li>
+
+            {% else %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

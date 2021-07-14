@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Прохождение{% endblock %}
+
+{% block body %}
+    <section class="text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Курс {{ course.name}}</h1>
+            <p class="lead text-muted">{{ course.description }}</p>
+            <div class="inline">
+            {% if app.user.isEnroll(course) == false %}
+                {{ include('passing_course/_enroll_form.html.twig') }}
+            {% elseif app.user.isEnroll(course) == true %}
+                {{ include('passing_course/_deduct_form.html.twig') }}
+                {% if app.user.isPassing(course) == false %}
+                    <a type="button" class="btn btn-sm btn-outline-primary"
+                       href="{{ path('passing', {'courseId': course.id, 'curLesson': 0, 'curStage': 0}) }}">Пройти</a>
+                {% else %}
+                    {% if app.user.getCurPassing(course).isComplited() == false %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('passing', {'courseId': course.id, 'curLesson': app.user.getCurPassing(course).curLesson, 'curStage': app.user.getCurPassing(course).curStage}) }}">Продолжить
+                            прохождение</a>
+                    {% else %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('result_passing', {'courseId': course.id,'passingId': app.user.getCurPassing(course).id}) }}">Результаты
+                            прохождения курса</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <div class="container bg-light">
+        <ul class="list-group">
+            {% for lesson in course.lessons %}
+                <div>
+                    <h3>{{ lesson.name }}</h3>
+                    <p>Этапы:</p>
+                    <ul class="list-group">
+                        {% for stage in lesson.lessonStages %}
+                        <li class="list-group-item">{{ stage.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ path('grouped_by_difficulty', {'difficultyLevel': course.difficultyLevel}) }}">назад</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('enroll_course', {'courseId': course.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('enroll' ~ course.id) }}">
+    <button class="btn btn-primary my-2">{{ button_label|default('Добавить в мои курсы') }}</button>
+</form>

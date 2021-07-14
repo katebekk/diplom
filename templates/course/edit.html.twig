@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Course{% endblock %}
+
+{% block body %}
+
+    <div class="py-5 text-center">
+        <h1>Редактировать курс</h1>
+    </div>
+    <div class="row center">
+        {{ form_start(form) }}
+        <div class="mb-3">
+            <label for="name">Название</label>
+            {{ form_row(form.name, {
+                id: 'name'
+            }) }}
+        </div>
+        <div class="mb-3 ">
+            <label for="difficultyLevel">Уровень сложности</label>
+            {{ form_widget(form.difficultyLevel, {
+                id: 'difficultyLevel',
+                'attr': {'class': 'custom-select'}
+            }) }}
+        </div>
+        <div class="mb-3">
+            <label for="name">Описание</label>
+            {{ form_row(form.description, {
+                id: 'description',
+                'attr': {'class': 'form-control'}
+            }) }}
+        </div>
+        <div class="btn-group">
+            <a type="button" class="btn btn-sm btn-outline-secondary"
+               href="{{ path('lessons_of_course',{'id':course.id}) }}">Редактировать <br> уроки
+            </a>
+            <a type="button" class="btn btn-sm btn-outline-success">{{ button_label|default('Сохранить') }}</a>
+
+        </div>
+{#        <a type="button" class="m-3 btn btn-sm btn-outline-secondary"#}
+{#           href="{{ app.request.headers.get('referer') }}">назад</a>#}
+        <a class="row justify-content-center py-1" href="{{ path('my_courses_teacher') }}">Назад</a>
+    </div>
+{% endblock %}

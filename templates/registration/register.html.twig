@@ -6,19 +6,27 @@
     {% for flashError in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flashError }}</div>
     {% endfor %}
+    <main class="py-5 form-signin py-lg-5">
+        <h2>Регистрация</h2>
 
-    <h1>Register</h1>
-
-    {{ form_start(registrationForm) }}
+        {{ form_start(registrationForm) }}
         {{ form_row(registrationForm.userType, {
-            label: 'Тип пользователя'
+            label: 'Тип пользователя',
+            class: 'p-1'
         }) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+            label: 'Пароль'
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+        {{ form_row(registrationForm.agreeTerms, {
+            label: 'Согласиться с условиями'
+            }) }}
+
+        <details><summary>Условия</summary>
+            Отмечая данное поле, вы соглашаетесь на обработку персональных данных.</details>
+        <br>
+        <button type="submit" class="btn btn-lg btn-primary p-1">Зарегистрироваться</button>
+        {{ form_end(registrationForm) }}
+    </main>
 {% endblock %}

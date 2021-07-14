@@ -1,0 +1,37 @@
+<div class="list-group list-group-flush border-bottom scrollarea">
+    {% for lesson in course.lessons %}
+        <small>{{ lesson.name }}:</small>
+        {% for stage in lesson.lessonStages %}
+            {% if passing.isDrawingCheckResult(stage) is not null %}
+                {% if passing.isDrawingCheckResult(stage).percent >= 80 %}
+                    <a href=""
+                       class="text-success list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">{{ stage.name }}</strong>
+                        </div>
+                    </a>
+                {% elseif  passing.isDrawingCheckResult(stage).percent > 0 %}
+                    <a href="#" class="text-warning list-group-item list-group-item-action py-3 lh-tight"
+                       aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">{{ stage.name }}</strong>
+                        </div>
+                    </a>
+                {% else %}
+                    <a href="#" class="text-danger list-group-item list-group-item-action py-3 lh-tight"
+                       aria-current="true">
+                        <div class="d-flex w-100 align-items-center justify-content-between">
+                            <strong class="mb-1">{{ stage.name }}</strong>
+                        </div>
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                    <div class="d-flex w-100 align-items-center justify-content-between">
+                        <strong class="mb-1">{{ stage.name }}</strong>
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</div>

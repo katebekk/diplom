@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LessonStage{% endblock %}
+
+{% block body %}
+    <h1>LessonStage</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lesson_stage.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ lesson_stage.name }}</td>
+            </tr>
+            <tr>
+                <th>Guidance</th>
+                <td>{{ lesson_stage.guidance }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('lesson_stage_index') }}">back to list</a>
+
+    <a href="{{ path('lesson_stage_edit', {'id': lesson_stage.id}) }}">edit</a>
+
+    {{ include('lesson_stage/_delete_form.html.twig') }}
+{% endblock %}

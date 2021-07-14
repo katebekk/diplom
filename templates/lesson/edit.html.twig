@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Lesson{% endblock %}
+
+{% block body %}
+    <div class="py-5 text-center">
+
+        <h1>Редактировать урок курса {{ lesson.course.name }}</h1>
+        {% do form.exampleImage.setRendered() %}
+        <br>
+    </div>
+    <div class="row center">
+        {{ include('lesson/_form.html.twig', {'button_label': 'Сохранить'}) }}
+        {{ include('lesson/_delete_form.html.twig') }}
+
+        <br>
+        <a href="{{ path('lessons_of_course',{'id':lesson.course.id}) }}">назад</a>
+
+    </div>
+
+{% endblock %}
