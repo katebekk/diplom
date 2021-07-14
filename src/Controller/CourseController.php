@@ -80,7 +80,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/course/teacher/{id}", name="course_delete", methods={"POST"})
+     * @Route("/teacher/course/{id}", name="course_delete", methods={"POST"})
      */
     public function delete(Request $request, Course $course): Response
     {

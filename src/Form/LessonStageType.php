@@ -16,6 +16,10 @@ class LessonStageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('lesson',TextType::class, [
+                'disabled'=>true,
+                'label' => 'Урок',
+            ])
             ->add('name',TextType::class, [
                  'label' => 'Название',
             ])
@@ -26,7 +30,6 @@ class LessonStageType extends AbstractType
             ->add('exampleImageStage', FileType::class, [
                 'label' => 'Пример выполнения этапа (pdf/jpeg)',
                 'mapped' => false,
-                'required'=>false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -40,7 +43,7 @@ class LessonStageType extends AbstractType
                     ])
                 ],
             ])
-            ->add('lesson')
+
         ;
     }
 

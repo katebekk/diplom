@@ -36,6 +36,7 @@
                                 <li class="nav-item"><a class="nav-link" href="{{ path('my_courses_teacher')}}">Мои курсы</a></li>
                             {% else %}
                                 <li class="nav-item"><a class="nav-link" hhref="{{ path('my_courses_teacher')}}">Выбрать курс</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Рекомендуемые курсы</a></li>
                                 <li class="nav-item"><a class="nav-link" href="{{ path('my_courses_learner')}}">Мои курсы</a></li>
                             {% endif %}
                         {% endif %}
@@ -59,6 +60,7 @@
         </div>
     {% endblock %}
 </header>
+
 <div class="container">
 {% block body %}{% endblock %}
 </div>

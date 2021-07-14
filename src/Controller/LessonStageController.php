@@ -19,10 +19,15 @@ class LessonStageController extends AbstractController
 {
 
     private $lessonRepository;
+    private $lessonStageRepository;
 
-    public function __construct(LessonRepository $lessonRepository)
+    public function __construct(
+        LessonRepository $lessonRepository,
+        LessonStageRepository $lessonStageRepository
+    )
     {
         $this->lessonRepository = $lessonRepository;
+        $this->lessonStageRepository= $lessonStageRepository;
     }
     /**
      * @Route("/{id}", name="lesson_stage_show", methods={"GET"})
@@ -35,17 +40,17 @@ class LessonStageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="lesson_stage_edit", methods={"GET","POST"})
+     * @Route("/{stageId}/edit", name="lesson_stage_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, LessonStage $lessonStage): Response
+    public function edit(Request $request, $stageId): Response
     {
+        $lessonStage = $this->lessonStageRepository->findOneBy(["id"=>$stageId]);
         $form = $this->createForm(LessonStageType::class, $lessonStage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('lesson_stage_index');
+            return $this->redirectToRoute('stage_of_lesson',['lessonId'=> $lessonStage->getLesson()->getId()]);
         }
 
         return $this->render('lesson_stage/edit.html.twig', [

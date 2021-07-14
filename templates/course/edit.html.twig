@@ -22,7 +22,6 @@
                 'attr': {'class': 'custom-select'}
             }) }}
         </div>
-        
         <div class="mb-3">
             <label for="name">Описание</label>
             {{ form_row(form.description, {
@@ -30,16 +29,15 @@
                 'attr': {'class': 'form-control'}
             }) }}
         </div>
-        <a class="btn btn-primary btn-outline row btn-light mb-3 center" type="button"
-           href="{{ path('lessons_of_course',{'id':course.id}) }}">Редактировать уроки</a>
-        <div class="row justify-content-center">
-            <div class="btn-group">
-                <button class="btn btn-primary btn-outline">{{ button_label|default('Сохранить') }}</button>
-                {{ form_end(form) }}
-                {{ include('course/_delete_form.html.twig') }}
-            </div>
-        </div>
+        <div class="btn-group">
+            <a type="button" class="btn btn-sm btn-outline-secondary"
+               href="{{ path('lessons_of_course',{'id':course.id}) }}">Редактировать <br> уроки
+            </a>
+            <a type="button" class="btn btn-sm btn-outline-success">{{ button_label|default('Сохранить') }}</a>
 
+        </div>
+{#        <a type="button" class="m-3 btn btn-sm btn-outline-secondary"#}
+{#           href="{{ app.request.headers.get('referer') }}">назад</a>#}
         <a class="row justify-content-center py-1" href="{{ path('my_courses_teacher') }}">Назад</a>
     </div>
 {% endblock %}

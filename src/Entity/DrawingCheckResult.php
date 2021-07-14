@@ -45,6 +45,11 @@ class DrawingCheckResult
      */
     private $passing;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $percent;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +111,18 @@ class DrawingCheckResult
     public function setPassing(?Passing $passing): self
     {
         $this->passing = $passing;
+
+        return $this;
+    }
+
+    public function getPercent(): ?int
+    {
+        return $this->percent;
+    }
+
+    public function setPercent(?int $percent): self
+    {
+        $this->percent = $percent;
 
         return $this;
     }

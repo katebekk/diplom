@@ -4,45 +4,18 @@
 
 {% block body %}
     <div class="py-5 text-center">
-        <h1>Редактировать урок курса  {{ lesson.course.name }}</h1>
+
+        <h1>Редактировать урок курса {{ lesson.course.name }}</h1>
+        {% do form.exampleImage.setRendered() %}
+        <br>
+    </div>
+    <div class="row center">
+        {{ include('lesson/_form.html.twig', {'button_label': 'Сохранить'}) }}
+        {{ include('lesson/_delete_form.html.twig') }}
+
+        <br>
+        <a href="{{ path('lessons_of_course',{'id':lesson.course.id}) }}">назад</a>
 
     </div>
-    {% do form.exampleImage.setRendered() %}
-    {% do form.course.setRendered() %}
-    {{ include('lesson/_form.html.twig', {'button_label': 'Сохранить'}) }}
 
-    <a href="{{ path('lessons_of_course',{'id':lesson.course.id}) }}">back to list</a>
-
-    {{ include('lesson/_delete_form.html.twig') }}
 {% endblock %}
-{#
-<div class="py-5 text-center">
-    <h1>Редактировать курс</h1>
-</div>
-<div class="row center">
-    {{ form_start(form) }}
-    <div class="mb-3">
-        <label for="name">Название</label>
-        {{ form_row(form.name, {
-            id: 'name'
-        }) }}
-    </div>
-    <div class="mb-3 ">
-        <label for="difficultyLevel">Уровень сложности</label>
-        {{ form_widget(form.difficultyLevel, {
-            id: 'difficultyLevel',
-            'attr': {'class': 'custom-select'}
-        }) }}
-    </div>
-    <a class="btn btn-primary btn-outline row btn-light mb-3 center" type="button"
-       href="{{ path('lessons_of_course',{'id':course.id}) }}">Редактировать уроки</a>
-    <div class="row justify-content-center">
-        <div class="btn-group">
-            <button class="btn btn-primary btn-outline">{{ button_label|default('Сохранить') }}</button>
-            {{ form_end(form) }}
-            {{ include('course/_delete_form.html.twig') }}
-        </div>
-    </div>
-
-    <a class="row justify-content-center py-1" href="{{ path('my_courses_teacher') }}">Назад</a>
-</div>#}

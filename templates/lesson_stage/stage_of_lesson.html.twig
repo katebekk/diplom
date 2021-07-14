@@ -29,17 +29,17 @@
         <div class="mb-3">
             {{ form_row(form.exampleImageStage, {
                 id: 'exampleImageStage',
-
             }) }}
         </div>
-            <div class="py-2 ">
-                <button class="btn btn-lg btn-primary">{{ button_label|default('Сохранить') }}</button>
-            </div>
-            {{ form_end(form) }}
-
-
+        <div class="py-2 ">
+            <button class="btn btn-lg btn-primary">{{ button_label|default('Сохранить') }}</button>
+        </div>
+        {{ form_end(form) }}
 
         <div>
+{#            <a type="button" class="btn btn-sm btn-outline-secondary"#}
+{#                           href="{{ app.request.headers.get('referer') }}">назад</a>#}
+
             <a type="button" class="btn btn-sm btn-outline-secondary"
                href="{{ path('lessons_of_course',  {'id': lesson.course.id}) }}">назад</a>
         </div>
@@ -72,21 +72,19 @@
 
                     </div>
                     <div class="col-sm">
-                        <img  data-src="{{  asset('uploads/exampleimagestages/') ~ lesson_stage.getExampleImageStage }}" style="display: block; width: 226px;" src="{{ asset('uploads/exampleimagestages/') ~ lesson_stage.getExampleImageStage }}" data-holder-rendered="true">
+                        <img data-src="{{ asset('uploads/exampleimagestages/') ~ lesson_stage.getExampleImageStage }}"
+                             style="display: block; width: 226px;"
+                             src="{{ asset('uploads/exampleimagestages/') ~ lesson_stage.getExampleImageStage }}"
+                             data-holder-rendered="true">
                     </div>
                     <div class="col">
                         <div class="btn-group">
                             <a type="button" class="btn btn-sm btn-outline-secondary"
-                               href="{{ path('lesson_stage_edit', {'id': lesson_stage.id}) }}">Редактировать</a>
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
-                               href="{{ path('reference_of_stage', {'id': lesson_stage.id}) }}">Добавить эталонные рисунки</a>
-                            <span type="button" class="badge badge-pill">{{ include('lesson_stage/_delete_form.html.twig') }}</span>
+                               href="{{ path('lesson_stage_edit', {'stageId': lesson_stage.id}) }}">Редактировать</a>
+                            {{ include('lesson_stage/_delete_form.html.twig') }}
                         </div>
-
                     </div>
-
                 </li>
-
             {% else %}
             {% endfor %}
         </ul>

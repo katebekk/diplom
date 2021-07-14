@@ -39,7 +39,8 @@
                         <div class="btn-group">
                             <a type="button" class="btn btn-sm btn-outline-secondary"
                                href="{{ path('course_edit', {'id': course.id}) }}">Редактировать</a>
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
+                            {{ include('course/_delete_form.html.twig') }}
+                            <a type="button" class="btn btn-sm btn-outline-success"
                                href="{{ path('lessons_of_course',{'id':course.id}) }}">Добавить уроки</a>
                             {% if course.test is null %}
                             <a type="button" class="btn btn-outline-primary"

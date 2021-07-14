@@ -1,4 +1,4 @@
 <form method="post" action="{{ path('deduct_course', {'courseId': course.id}) }}">
     <input type="hidden" name="_token" value="{{ csrf_token('deduct' ~ course.id) }}">
-    <button class="btn btn-secondary my-2">{{ button_label|default('Отчислиться') }}</button>
+    <button class="btn btn-secondary my-2">{{ button_label|default('Удалить из мох курсов') }}</button>
 </form>

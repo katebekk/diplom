@@ -20,6 +20,7 @@ class CourseType extends AbstractType
             ])
             ->add('description',TextareaType::class, [
                 'label'=>false,
+                'required'=>false,
             ])
             ->add('difficultyLevel', ChoiceType::class, [
                     'choices' => [

@@ -3,11 +3,24 @@
 {% block title %}Edit LessonStage{% endblock %}
 
 {% block body %}
-    <h1>Edit LessonStage</h1>
+    <div class="py-5 text-center">
+        <h1>Редактировать этап</h1>
 
-    {{ include('lesson_stage/_form.html.twig', {'button_label': 'Сохранить'}) }}
+    </div>
+    <div class="row center">
+        {% do form.exampleImageStage.setRendered() %}
+        {# {% do form.lesson.setRendered() %} #}
 
-    <a href="{{ path('stage_of_lesson', {'lessonId': lesson_stage.lesson.id}) }}">back to list</a>
 
-    {{ include('lesson_stage/_delete_form.html.twig') }}
+        <div class="row justify-content-center">
+            <div class="btn-group">
+
+                {{ include('lesson_stage/_form.html.twig', {'button_label': 'Сохранить'}) }}
+
+            </div>
+
+        </div>
+        {{ include('lesson_stage/_delete_form.html.twig') }}
+        <a href="{{ path('stage_of_lesson', {'lessonId': lesson_stage.lesson.id}) }}">Назад</a>
+    </div>
 {% endblock %}

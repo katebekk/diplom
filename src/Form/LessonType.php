@@ -15,6 +15,10 @@ class LessonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('course',TextType::class, [
+                'disabled'=>true,
+                'label' => 'Курс',
+            ])
             ->add('name',TextType::class, [
                 'label' => 'Название',
             ])
@@ -25,7 +29,6 @@ class LessonType extends AbstractType
             ->add('exampleImage', FileType::class, [
                 'label' => 'Пример выполнения урока (pdf/jpeg)',
                 'mapped' => false,
-                'required'=>false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
@@ -39,7 +42,6 @@ class LessonType extends AbstractType
                     ])
                 ],
             ])
-            ->add('course')
         ;
     }
 

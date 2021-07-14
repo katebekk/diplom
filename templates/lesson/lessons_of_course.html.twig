@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Lesson{% endblock %}
+{% block title %}Уроки{% endblock %}
 
 {% block body %}
     {% do form.course.setRendered() %}
@@ -15,7 +15,9 @@
     </div>
     <div class="row center">
         {{ include('lesson/_form.html.twig') }}
-        <a href="{{ path('my_courses_teacher') }}">назад</a>
+        <a type="button" class="m-3 btn btn-sm btn-outline-secondary"
+           href="{{ app.request.headers.get('referer') }}">назад</a>
+{#        <a href="{{ path('my_courses_teacher') }}">назад</a>#}
     </div>
     <h2 class="fw-light">Уроки курса {{ course.name }}</h2>
     <div class="container bg-light">
@@ -49,18 +51,13 @@
                     <div class="col">
                         <div class="btn-group">
                             <a type="button" class="btn btn-sm btn-outline-secondary"
-                               href="{{ path('lesson_edit', {'lessonId': lesson.id}) }}">Редактировать</a>
-
-                        </div>
-                        <div class="btn-group">
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
+                               href="{{ path('lesson_edit', {'lessonId': lesson.id}) }}">Редактировать
+                            </a>
+                            <a type="button" class="btn btn-sm btn-outline-success"
                                href="{{ path('stage_of_lesson',{'lessonId':lesson.id}) }}">Добавить этапы</a>
-
+                            {{ include('lesson/_delete_form.html.twig') }}
                         </div>
-                        <span class="badge badge-pill">{{ include('lesson/_delete_form.html.twig') }}</span>
-
                     </div>
-
                 </li>
 
             {% else %}

@@ -41,6 +41,16 @@ class Passing
      */
     private $isComplited = false;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $curLesson = 0;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $curStage = 0;
+
     public function __construct()
     {
         $this->results = new ArrayCollection();
@@ -115,5 +125,40 @@ class Passing
         $this->isComplited = $isComplited;
 
         return $this;
+    }
+
+    public function getCurLesson(): ?int
+    {
+        return $this->curLesson;
+    }
+
+    public function setCurLesson(?int $curLesson): self
+    {
+        $this->curLesson = $curLesson;
+
+        return $this;
+    }
+
+    public function getCurStage(): ?int
+    {
+        return $this->curStage;
+    }
+
+    public function setCurStage(?int $curStage): self
+    {
+        $this->curStage = $curStage;
+
+        return $this;
+    }
+
+    public function isDrawingCheckResult(LessonStage $lessonStage): ?DrawingCheckResult
+    {
+        $results = $this->results;
+        foreach ($results as &$result) {
+            if ($result->getLessonStage()->getId() == $lessonStage->getId()) {
+                return $result;
+            }
+        }
+        return null;
     }
 }

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\DrawingCheckResultRepository;
 
 /**
  * @Route("/teacher/lesson")
@@ -19,10 +20,16 @@ class LessonController extends AbstractController
 {
 
     private $lessonRepository;
+    private $drawingCheckResultRepository;
 
-    public function __construct(LessonRepository $lessonRepository)
+    public function __construct(
+        LessonRepository $lessonRepository,
+        DrawingCheckResultRepository $drawingCheckResultRepository
+
+    )
     {
         $this->lessonRepository = $lessonRepository;
+        $this->drawingCheckResultRepository = $drawingCheckResultRepository;
     }
     /**
      * @Route("/", name="lesson_index", methods={"GET"})

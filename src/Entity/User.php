@@ -273,12 +273,23 @@ class User implements UserInterface
         $passings = $this->passings;
         $passed = false;
         foreach ($passings as &$passing) {
-            if ($passing->getCourse() == $course and $passing->getIsComplited() == false) {
+            if ($passing->getCourse() == $course) {
                 $passed = true;
             }
         }
 
         return $passed;
+    }
+    public function getCurPassing(Course $course): ?Passing
+    {
+        $passings = $this->passings;
+        $passed = false;
+        foreach ($passings as &$passing) {
+            if ($passing->getCourse() == $course) {
+                return $passing;
+            }
+        }
+        return null;
     }
 
     /**

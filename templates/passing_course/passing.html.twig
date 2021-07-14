@@ -1,51 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CourseLessonsController!{% endblock %}
+{% block title %}Прохождение{% endblock %}
 
 {% block body %}
     <section class="text-center">
         <div class="container">
-            <h1 class="jumbotron-heading">Прохождение курса {{ course.name}}</h1>
+            <h1 class="jumbotron-heading">Прохождение курса {{ course.name }}
+            </h1>
         </div>
     </section>
-    <div class="container bg-light">
-        <ul class="list-group">
-            {% for lesson in course.lessons %}
-                <div>
-                    <h3>{{ lesson.name }}</h3>
-                    <p>Этапы:</p>
-                    <ul class="list-group">
-                        {% set i = 1 %}
-                        {% for stage in lesson.lessonStages %}
-
-                            <li class="list-group-item">
-                                <p>Этап {{ i }} "{{ stage.name }}"</p>
-                                <p>{{ stage.guidance }}</p>
-                                <img data-src="{{ asset('uploads/exampleimagestages/') ~ stage.getExampleImageStage }}"
-                                     style="display: block; width: 226px;"
-                                     src="{{ asset('uploads/exampleimagestages/') ~ stage.getExampleImageStage }}"
-                                     data-holder-rendered="true">
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile01" accept="image/jpeg,image/png,image/jpg">
-                                        <label class="custom-file-label" for="inputGroupFile01">Изображение рисунка для
-                                            проверки</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-outline-secondary" type="button">Проверить</button>
-                                    </div>
-                                </div>
-                            </li>
-                            {% set i = i+1 %}
-
-                        {% endfor %}
-                    </ul>
+    <div class="container bg-light row mb-2">
+        <div class="col-md-3">
+            {{ include('passing_course/_sidebar.html.twig') }}
+        </div>
+        <div class="col-md-6 ">
+            <h3>Этап "{{ course.lessons[curLesson].lessonStages[curStage].name }}"</h3>
+            <p>Урок "{{ course.lessons[curLesson].name }}"</p>
+            <p>{{ course.lessons[curLesson].lessonStages[curStage].guidance }}</p>
+            <img data-src="{{ asset('uploads/exampleimagestages/') ~ course.lessons[curLesson].lessonStages[curStage].getExampleImageStage }}"
+                 class="p-3 m-2"
+                 style="display: block; width: 226px;"
+                 src="{{ asset('uploads/exampleimagestages/') ~ course.lessons[curLesson].lessonStages[curStage].getExampleImageStage }}"
+                 data-holder-rendered="true">
+            <form method="post" enctype="multipart/form-data"
+                  action="{{ path('check_drawing', {
+                      'courseId': course.id,
+                      'curLesson': curLesson,
+                      'curStage':curStage,
+                      'stageId': course.lessons[curLesson].lessonStages[curStage].id,
+                      'passingId':passing.id}) }}">
+                <p>Изображение рисунка для проверки</p>
+                <div class="custom-file">
+                    <input name="image" type="file"
+                           accept="image/jpeg,image/png,image/jpg" required/>
                 </div>
+                <div>
+                    <input type="hidden" name="submit">
+                    <button name="check" class="btn btn-outline-secondary">Проверить</button>
+                </div>
+
+            </form>
+            {% if result is defined %}
+                <div>
+                    <h3>Результат проверки</h3>
+                    {% if result.percent >= 80 %}
+                        <div class="p-3 m-2 bg-success text-white rounded">{{ result.resultMessage }}</div>
+                        <img data-src="{{ asset('uploads/resultImages/') ~ result.getResultImage }}"
+                             class="p-3 m-2"
+                             style="display: block; width: 226px;"
+                             src="{{ asset('uploads/resultImages/') ~ result.getResultImage }}"
+                             data-holder-rendered="true">
+                    {% elseif  result.percent > 0 %}
+                        <div class="p-3 m-2 bg-warning text-white rounded">{{ result.resultMessage }}</div>
+                        <img data-src="{{ asset('uploads/resultImages/') ~ result.getResultImage }}"
+                             class="p-3 m-2"
+                             style="display: block; width: 226px;"
+                             src="{{ asset('uploads/resultImages/') ~ result.getResultImage }}"
+                             data-holder-rendered="true">
+                    {% else %}
+                        <div class="p-3 m-2 bg-danger text-white rounded">{{ result.resultMessage }}</div>
+                    {% endif %}
+                </div>
+
+            {% endif %}
+
+            {% if result is defined %}
+                {% if curLesson == (course.lessons|length-1) %}
+                    {% if curStage == (course.lessons[curLesson].lessonStages|length-1) %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('result_passing', {'courseId': course.id,'passingId': passing.id}) }}">Завершить прохождение</a>
+                    {% else %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('passing', {'courseId': course.id, 'curLesson': curLesson, 'curStage':curStage+1}) }}">Слеудющий
+                            этап</a>
+                    {% endif %}
+                {% else %}
+                    {% if curStage == (course.lessons[curLesson].lessonStages|length-1) %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('passing', {'courseId': course.id, 'curLesson': curLesson+1, 'curStage': 0}) }}">Следующий
+                            урок</a>
+                    {% else %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('passing', {'courseId': course.id, 'curLesson': curLesson, 'curStage':curStage+1}) }}">Слеудющий
+                            этап</a>
+                    {% endif %}
+                {% endif %}
             {% else %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                </li>
-            {% endfor %}
-        </ul>
-        <a href="{{ path('grouped_by_difficulty', {'difficultyLevel': course.difficultyLevel}) }}">назад</a>
+                <div class="p-3 m-2 text-warning rounded">Чтобы продолжить, проверьте рисунок</div>
+            {% endif %}
+{#            <a type="button" class="btn btn-sm btn-outline-secondary"#}
+{#               href="{{ app.request.headers.get('referer') }}">назад</a>#}
+            <a class="btn btn-sm btn-outline-secondary" href="{{ path('show_course', {'courseId': course.id}) }}">К просмотру курса</a>
+        </div>
     </div>
 {% endblock %}

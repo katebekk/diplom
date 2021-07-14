@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CourseLessonsController!{% endblock %}
+{% block title %}Прохождение{% endblock %}
 
 {% block body %}
     <section class="text-center">
@@ -12,8 +12,20 @@
                 {{ include('passing_course/_enroll_form.html.twig') }}
             {% elseif app.user.isEnroll(course) == true %}
                 {{ include('passing_course/_deduct_form.html.twig') }}
-                <a type="button" class="btn btn-sm btn-outline-primary"
-                   href="{{ path('passing', {'courseId': course.id}) }}">Пройти</a>
+                {% if app.user.isPassing(course) == false %}
+                    <a type="button" class="btn btn-sm btn-outline-primary"
+                       href="{{ path('passing', {'courseId': course.id, 'curLesson': 0, 'curStage': 0}) }}">Пройти</a>
+                {% else %}
+                    {% if app.user.getCurPassing(course).isComplited() == false %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('passing', {'courseId': course.id, 'curLesson': app.user.getCurPassing(course).curLesson, 'curStage': app.user.getCurPassing(course).curStage}) }}">Продолжить
+                            прохождение</a>
+                    {% else %}
+                        <a type="button" class="btn btn-sm btn-outline-primary"
+                           href="{{ path('result_passing', {'courseId': course.id,'passingId': app.user.getCurPassing(course).id}) }}">Результаты
+                            прохождения курса</a>
+                    {% endif %}
+                {% endif %}
             {% endif %}
             </div>
         </div>
